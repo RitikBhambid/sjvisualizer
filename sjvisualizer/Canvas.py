@@ -16,6 +16,7 @@ import os
 import ctypes
 import json
 import platform
+import imageio
 
 from screeninfo import get_monitors
 
@@ -229,6 +230,18 @@ class canvas():
                                        y_pos=self.height * 0.95,
                                        file=path, root=self.tk, anchor="se")
         self.add_sub_plot(img)
+    
+    def save_video(canvas, filename, fps=30):
+        images = []
+        for i, date_time in enumerate(canvas.df.index):
+            canvas.update(date_time)
+            image = canvas.sjcanvas.canvas_postscript(colormode='color')
+            images.append(Image.open(io.BytesIO(image.encode('utf-8'))))
+
+        output_file = filename + '.mp4'
+        imageio.mimsave(output_file, images, fps=fps)
+        print(f"Video saved as {output_file}")
+
 
 class sub_plot():
     """
