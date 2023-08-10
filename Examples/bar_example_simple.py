@@ -30,8 +30,9 @@ def main(fps = 60, duration = 0.35):
     # save colors for next run
     with open("colors/colors.json", "w") as file:
         json.dump(colors, file, indent=4)
-
-    canvas.play(fps=fps)
+        
+    canvas.save_video(canvas, "animation_output", fps=30)
+    # canvas.play(fps=fps)
 
 if __name__ == "__main__":
     main()
